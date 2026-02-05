@@ -10,6 +10,7 @@ import { AccountsController } from './controllers/accounts/accounts.controller';
 
 import { AccountsService } from './services/accounts/accounts.service';
 
+import { AuthModule } from './auth/auth.module';
 import { GoogleAuthService } from 'src/util/services/google-auth.service';
 
 @Module({
@@ -17,6 +18,7 @@ import { GoogleAuthService } from 'src/util/services/google-auth.service';
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     DatabaseModule,
     HttpModule,
+    AuthModule,
   ],
   controllers: [AccountsController,],
   providers: [AccountsService, GoogleAuthService],

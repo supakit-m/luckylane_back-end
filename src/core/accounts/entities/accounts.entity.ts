@@ -16,9 +16,18 @@ export class AccountsEntity {
 
   @Column()
   name!: string;
-  
+
   @Column()
+  surname!: string;
+  
+  @Column({ unique: true })
   email!: string;
+
+  @Column({ type: 'varchar', length: 255, unique: true, nullable: true })
+  google_id!: string | null;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  picture!: string | null;
 
   @Column({ default: 'user' })
   role!: string;

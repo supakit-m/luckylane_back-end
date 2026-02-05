@@ -20,7 +20,46 @@ export class AccountsRepository implements IAccountsRepository {
   ) {}
 
   async findAll(): Promise<AccountsEntity[] | []> {
-    return await this.repository.find({ where: { is_active: true } }) || [];
+    return (await this.repository.find({ where: { is_active: true } })) || [];
+  }
+
+  async findByGoogleId(googleId: string): Promise<AccountsEntity | null> {
+    return await this.repository.findOne({ where: { google_id: googleId } });
+  }
+
+  async findByEmail(email: string): Promise<AccountsEntity | null> {
+    return await this.repository.findOne({ where: { email } });
+  }
+
+  async createAccount(
+    accountData: Partial<AccountsEntity>,
+  ): Promise<AccountsEntity> {
+    try {
+      const newAccount = this.repository.create(accountData);
+      return await this.repository.save(newAccount);
+    } catch (error) {
+      this.logger.error(`Failed to create account: ${error.message}`);
+      throw new InternalServerErrorException('Error creating account');
+    }
+  }
+
+  async updateAccount(
+    id: number,
+    accountData: Partial<AccountsEntity>,
+  ): Promise<AccountsEntity> {
+    try {
+      await this.repository.update(id, accountData);
+      const updatedAccount = await this.repository.findOneBy({ accounts_id: id });
+      if (!updatedAccount) {
+        throw new NotFoundException(`Account with ID ${id} not found after update`);
+      }
+      return updatedAccount;
+    } catch (error) {
+      this.logger.error(
+        `Failed to update account with ID ${id}: ${error.message}`,
+      );
+      throw new InternalServerErrorException('Error updating account');
+    }
   }
 
   

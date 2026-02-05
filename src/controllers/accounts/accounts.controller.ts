@@ -22,9 +22,10 @@ export class AccountsController {
   }
 
   @Post('google-login')
-  async googleLogin(@Body() body:{idToken: string}): Promise<any> {
+  @HttpCode(HttpStatus.OK)
+  async googleLogin(@Body() body: { idToken: string }): Promise<any> {
     if (!body.idToken) {
-      throw new BadRequestException('ID Token is requireddsdsdsd');
+      throw new BadRequestException('idToken is required');
     }
     return await this.accountsService.googleLogin(body.idToken);
   }
