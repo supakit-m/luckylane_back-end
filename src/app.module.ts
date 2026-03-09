@@ -12,6 +12,7 @@ import { AccountsService } from './services/accounts/accounts.service';
 
 import { AuthModule } from './auth/auth.module';
 import { GoogleAuthService } from 'src/util/services/google-auth.service';
+import { HealthModule } from '@app/util/health/health.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { GoogleAuthService } from 'src/util/services/google-auth.service';
     DatabaseModule,
     HttpModule,
     AuthModule,
+    HealthModule,
   ],
   controllers: [AccountsController,],
   providers: [AccountsService, GoogleAuthService],
